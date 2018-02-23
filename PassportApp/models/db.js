@@ -2,7 +2,7 @@
 
 var gracefulShutdown;
 
-var dbURI = 'mongodb://localhost/bucketlist';
+var dbURI = 'mongodb://birotydb:GvNlnWXftt5GubOdXDQ3vKf4AyWUG8ZTlFtrNB78tbJi7W4iHxmZTMFCR5gZX23sQpoLE1XYhBSP0Ns73NBhLA==@birotydb.documents.azure.com:10255/?ssl=true&replicaSet=globaldb'//'mongodb://localhost/bucketlist';
 
 if (process.env.NODE_ENV === 'production') {
 
