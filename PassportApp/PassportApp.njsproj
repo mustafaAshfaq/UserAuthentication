@@ -46,7 +46,7 @@
     </Compile>
     <Compile Include="routes\index.js" />
     <Compile Include="routes\users.js" />
-    <None Include="birotyapp-auth - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\birotyapp-auth - Web Deploy.pubxml" />
     <Content Include="web.config" />
     <Content Include="package.json" />
     <Content Include="public\stylesheets\main.css" />
@@ -60,6 +60,8 @@
     <Folder Include="config\" />
     <Folder Include="models\" />
     <Folder Include="controllers\" />
+    <Folder Include="Properties\" />
+    <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="public\" />
     <Folder Include="public\images\" />
     <Folder Include="public\javascripts\" />
