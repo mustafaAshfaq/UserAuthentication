@@ -1,12 +1,6 @@
-﻿var mongoose = require('mongoose');
-
+var mongoose = require('mongoose');
 var gracefulShutdown;
-
 var dbURI = "mongodb://admin1:admin1@cluster0-shard-00-00.jm57b.mongodb.net:27017,cluster0-shard-00-01.jm57b.mongodb.net:27017,cluster0-shard-00-02.jm57b.mongodb.net:27017/auth?ssl=true&replicaSet=atlas-w19k1o-shard-0&authSource=admin&retryWrites=true&w=majority";
-    //'mongodb+srv://dbadmin1:admin123@cl1-gz9xw.mongodb.net/db1';
-//'mongodb://birotydb@birotydb.documents.azure.com:10255/com_db?ssl=true&replicaSet=globaldb'
-//'mongodb://localhost/bucketlist';
-
 if (process.env.NODE_ENV === 'production') {
 
     dbURI = process.env.MONGOLAB_URI;
@@ -50,7 +44,7 @@ mongoose.connection.on('disconnected', function () {
 
 gracefulShutdown = function (msg, callback) {
 
-    mongoose.connection.close(function () {
+    mongoose.connection.close().then(function () {
 
         console.log('Mongoose disconnected through ' + msg);
 
