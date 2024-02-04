@@ -2,10 +2,7 @@
 
 var gracefulShutdown;
 
-var dbURI = "mongodb://dbadmin1:dbadmin1@cl1-shard-00-00-gz9xw.mongodb.net:27017,cl1-shard-00-01-gz9xw.mongodb.net:27017,cl1-shard-00-02-gz9xw.mongodb.net:27017/test?ssl=true&replicaSet=cl1-shard-0&authSource=admin&retryWrites=true";
-    //'mongodb+srv://dbadmin1:admin123@cl1-gz9xw.mongodb.net/db1';
-//'mongodb://birotydb@birotydb.documents.azure.com:10255/com_db?ssl=true&replicaSet=globaldb'
-//'mongodb://localhost/bucketlist';
+var dbURI;
 
 if (process.env.NODE_ENV === 'production') {
 
@@ -19,8 +16,7 @@ if (process.env.NODE_ENV === 'production') {
     //});
 
 }
-else
-    mongoose.connect(dbURI);
+mongoose.connect(dbURI);
 
 
 // CONNECTION EVENTS
