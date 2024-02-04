@@ -47,7 +47,7 @@ router.get('/', auth,function (req, res) {
         });
     }
 });
-
+console.log(obj)
 router.post('/login', obj.login);
 router.post('/register', obj.register);
 module.exports = router;

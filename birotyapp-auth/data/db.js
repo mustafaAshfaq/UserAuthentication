@@ -1,97 +1,31 @@
 var mongoose = require('mongoose');
-var gracefulShutdown;
-var dbURI = "mongodb://admin1:admin1@cluster0-shard-00-00.jm57b.mongodb.net:27017,cluster0-shard-00-01.jm57b.mongodb.net:27017,cluster0-shard-00-02.jm57b.mongodb.net:27017/auth?ssl=true&replicaSet=atlas-w19k1o-shard-0&authSource=admin&retryWrites=true&w=majority";
-if (process.env.NODE_ENV === 'production') {
+require('dotenv').config();
+const connectDb=async()=>{
+    var dbURI = process.env.MONGOLAB_URI;
+    await mongoose.connect(dbURI);
+    // CONNECTION EVENTS
 
-    dbURI = process.env.MONGOLAB_URI;
-    //split dburi to get user name and password for db
-    //mongoose.connect(dbURI, {
-    //    auth: {
-    //        user: 'birotydb',
-    //        password: 'GvNlnWXftt5GubOdXDQ3vKf4AyWUG8ZTlFtrNB78tbJi7W4iHxmZTMFCR5gZX23sQpoLE1XYhBSP0Ns73NBhLA=='
-    //    }
-    //});
-
-}
-else
-    mongoose.connect(dbURI);
-
-
-// CONNECTION EVENTS
-
-mongoose.connection.on('connected', function () {
+    mongoose.connection.on('connected', function () {
 
     console.log('Mongoose connected to ' + dbURI);
 
-});
-
-mongoose.connection.on('error', function (err) {
-
-    console.log('Mongoose connection error: ' + err);
-});
-
-mongoose.connection.on('disconnected', function () {
-
-    console.log('Mongoose disconnected');
-
-});
-
-
-
-// CAPTURE APP TERMINATION / RESTART EVENTS
-
-// To be called when process is restarted or terminated
-
-gracefulShutdown = function (msg, callback) {
-
-    mongoose.connection.close().then(function () {
-
-        console.log('Mongoose disconnected through ' + msg);
-
-        callback();
-
     });
 
-};
+    mongoose.connection.on('error', function (err) {
 
-// For nodemon restarts
-
-process.once('SIGUSR2', function () {
-
-    gracefulShutdown('nodemon restart', function () {
-
-        process.kill(process.pid, 'SIGUSR2');
-
+        console.log('Mongoose connection error: ' + err);
     });
 
-});
+    mongoose.connection.on('disconnected', function () {
 
-// For app termination
-
-process.on('SIGINT', function () {
-
-    gracefulShutdown('app termination', function () {
-
-        process.exit(0);
+        console.log('Mongoose disconnected');
 
     });
+    //connect to db
+    // BRING IN YOUR SCHEMAS & MODELS
 
-});
+    require('./users')
 
-// For Heroku app termination
+}
+module.exports=connectDb;
 
-process.on('SIGTERM', function () {
-
-    gracefulShutdown('Heroku app termination', function () {
-
-        process.exit(0);
-
-    });
-
-});
-
-
-
-// BRING IN YOUR SCHEMAS & MODELS
-
-require('./users');

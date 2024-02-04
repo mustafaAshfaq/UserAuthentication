@@ -5,12 +5,17 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var passport = require('passport');
 var cors = require('cors');
-require('./data/db');
-require('./config/passport');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var connectDb=require('./data/db');
+const passportSetup=require('./config/passport');
+const configAppShutdown=require('./config/app-shutdown');
+async function setupApp(){
+  await connectDb();
+  configAppShutdown();
+  passportSetup();
 
-var app = express();
+  var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -32,6 +37,7 @@ app.use(function(req, res, next) {
 
 // error handler
 app.use(function(err, req, res, next) {
+  console.log(err)
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
@@ -40,5 +46,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+  return app
+}
 
-module.exports = app;
+module.exports = setupApp;

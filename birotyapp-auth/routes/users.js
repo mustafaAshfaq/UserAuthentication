@@ -1,13 +1,14 @@
 var express = require('express');
 var router = express.Router();
-var User=require('mongoose').model('User');
-const authController=require('../controllers/authController');
-var jwt = require('express-jwt');
-var user = require('mongoose').model('User');
-var auth = jwt({
-    secret: process.env.JSON_TOKEN_STRING || 'MY_SECRET',
-    userProperty:'payload'
+var {expressjwt}=require('express-jwt');
+var User=require('../data/users');
+
+var auth=expressjwt({
+  secret: process.env.JSON_TOKEN_STRING || 'MY_SECRET',
+  requestProperty:'payload',
+  algorithms:["HS256"]
 });
+var authController=require('../controllers/authentication');
 /* GET users listing. */
 router.get('/', auth,async function(req, res, next) {
   try{
